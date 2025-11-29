@@ -24,7 +24,10 @@ app.post("/webhook", async (req, res) => {
 
     res.json({ ok: true, sent: result });
   } catch (error) {
-    console.error("Webhook 오류:
-                  
-                  export default app;
+    console.error("Webhook 오류:", error);
+    res.status(500).json({ ok: false, error: error.message });
+  }
+});
 
+// **Vercel 배포를 위한 export**
+export default app;
