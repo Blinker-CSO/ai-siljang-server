@@ -25,3 +25,6 @@ app.post("/webhook", async (req, res) => {
     res.json({ ok: true, sent: result });
   } catch (error) {
     console.error("Webhook 오류:
+                  
+                  export default app;
+
