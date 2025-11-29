@@ -2,33 +2,33 @@ import axios from "axios";
 
 export async function sendSMS(to, text) {
   try {
-    const response = await axios({
-      method: "POST",
+    const res = await axios({
+      method: "post",
       url: "https://api.solapi.com/messages/v4/send",
       headers: {
         Authorization:
-          "HMAC-SHA256 apiKey=" +
+          "HMAC-SHA256 ApiKey=" +
           process.env.SOLAPI_KEY +
-          ", date=" +
-          new Date().toUTCString() +
-          ", salt=" +
-          Math.random().toString(36).substring(2, 15) +
-          ", signature=" +
-          "dummy", // Solapi Node SDK 없이 간단한 호출 구조
+          ", Date=" +
+          new Date().toISOString(),
+        "Content-Type": "application/json"
       },
       data: {
         message: {
-          to,
+          to: to,
           from: process.env.SENDER_NUMBER,
-          text,
-        },
-      },
+          text: text
+        }
+      }
     });
 
-    console.log("SMS 전송 성공:", response.data);
     return true;
-  } catch (e) {
-    console.error("SMS 전송 실패:", e.message);
+  } catch (error) {
+    console.error("🔥 [SMS 전송 실패 상세]", {
+      status: error.response?.status,
+      data: error.response?.data
+    });
+
     return false;
   }
 }
